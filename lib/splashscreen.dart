@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sport_equipment/register.dart';
 
 import 'main.dart';
 
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
                         padding: EdgeInsets.only(top: 10.0),
                       ),
                       Text(
-                        "Sport Equipment Lending System",
+                        "MyLendSport",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 24.0,
@@ -102,8 +103,10 @@ class _ProgressIndicatorState extends State<ProgressIndicator>
           //updating states
           if (animation.value > 0.99) {
             controller.stop();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) => Main()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => RegisterScreen()));
 
             // Navigator.push(
             //     context,
