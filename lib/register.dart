@@ -13,6 +13,10 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String name, email, phone, password;
+  bool _validate = false;
+  bool _isHidePassword = true;
   bool emailcheck = false;
   bool validateMobile = false;
   String phoneErrorMessage;
@@ -29,7 +33,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailEditingController = new TextEditingController();
   TextEditingController _phoneditingController = new TextEditingController();
   TextEditingController _passEditingController = new TextEditingController();
-  TextEditingController _typeEditingController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
           children: <Widget>[
             Container(
-              height: 250,
+              height: 200,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/images/background.jpg"),
@@ -53,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: <Widget>[
                   Positioned(
                       child: Container(
-                          margin: EdgeInsets.only(top: 50),
+                          margin: EdgeInsets.only(top: 5),
                           child: Center(
                             child: Text(
                               "Register",
@@ -71,96 +74,128 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(143, 148, 251, 2),
-                                blurRadius: 20.0,
-                                offset: Offset(0, 10))
-                          ]),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              padding: EdgeInsets.all(3.5),
-                              decoration: BoxDecoration(),
-                              child: TextFormField(
-                                controller: _nameEditingController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: "Name",
-                                  icon: Icon(Icons.person),
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color.fromRGBO(143, 148, 251, 2),
+                                  blurRadius: 20.0,
+                                  offset: Offset(0, 10))
+                            ]),
+                        child: Form(
+                          key: _formKey,
+                          autovalidate: _validate,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  padding: EdgeInsets.all(3.5),
+                                  decoration: BoxDecoration(),
+                                  child: TextFormField(
+                                    controller: _nameEditingController,
+                                    keyboardType: TextInputType.text,
+                                    validator: _validateName,
+                                    onSaved: (String val) {
+                                      name = val;
+                                    },
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      labelText: "Name",
+                                      icon: Icon(Icons.person),
+                                    ),
+                                  )),
+                              Container(
+                                  padding: EdgeInsets.all(3.5),
+                                  decoration: BoxDecoration(),
+                                  child: TextFormField(
+                                    controller: _emailEditingController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: _validateEmail,
+                                    onSaved: (String val) {
+                                      email = val;
+                                    },
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      labelText: "Email",
+                                      icon: Icon(Icons.email),
+                                    ),
+                                  )),
+                              Container(
+                                padding: EdgeInsets.all(3.5),
+                                decoration: BoxDecoration(),
+                                child: TextFormField(
+                                  obscureText: _isHidePassword,
+                                  controller: _passEditingController,
+                                  validator: _validatePassword,
+                                  onSaved: (String val) {
+                                    password = val;
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      labelText: "Password",
+                                      icon: Icon(Icons.lock),
+                                      suffixIcon: GestureDetector(
+                                          onTap: () {
+                                            _togglePasswordVisibility();
+                                          },
+                                          child: Icon(
+                                            _isHidePassword
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: _isHidePassword
+                                                ? Colors.grey
+                                                : Colors.green,
+                                          ))),
                                 ),
-                              )),
-                          Container(
-                              padding: EdgeInsets.all(3.5),
-                              decoration: BoxDecoration(),
-                              child: TextField(
-                                controller: _emailEditingController,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: "Email",
-                                  icon: Icon(Icons.email),
-                                ),
-                              )),
-                          Container(
-                              padding: EdgeInsets.all(3.5),
-                              decoration: BoxDecoration(),
-                              child: TextField(
-                                controller: _passEditingController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: "Password",
-                                  icon: Icon(Icons.lock),
-                                ),
-                                obscureText: true,
-                              )),
-                          Container(
-                              padding: EdgeInsets.all(3.5),
-                              decoration: BoxDecoration(),
-                              child: TextField(
-                                controller: _phoneditingController,
-                                keyboardType: TextInputType.phone,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: "Phone",
-                                  icon: Icon(Icons.phone),
-                                ),
-                              )),
-                          Container(
-                            padding: EdgeInsets.all(3.5),
-                            decoration: BoxDecoration(),
-                            child: DropdownButton(
-                              //sorting dropdownoption
-                              hint: Text(
-                                'User Type',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ), // Not necessary for Option 1
-                              value: selectedType,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedType = newValue;
-                                  print(selectedType);
-                                });
-                              },
-                              items: listType.map((selectedType) {
-                                return DropdownMenuItem(
-                                  child: new Text(selectedType,
-                                      style: TextStyle(color: Colors.black)),
+                              ),
+                              Container(
+                                  padding: EdgeInsets.all(3.5),
+                                  decoration: BoxDecoration(),
+                                  child: TextFormField(
+                                    controller: _phoneditingController,
+                                    keyboardType: TextInputType.phone,
+                                    validator: _validatePhone,
+                                    onSaved: (String val) {
+                                      phone = val;
+                                    },
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      labelText: "Phone",
+                                      icon: Icon(Icons.phone),
+                                    ),
+                                  )),
+                              Container(
+                                padding: EdgeInsets.all(3.5),
+                                decoration: BoxDecoration(),
+                                child: DropdownButton(
+                                  //sorting dropdownoption
+                                  hint: Text(
+                                    'User Type',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ), // Not necessary for Option 1
                                   value: selectedType,
-                                );
-                              }).toList(),
-                            ),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      selectedType = newValue;
+                                      print(selectedType);
+                                    });
+                                  },
+                                  items: listType.map((selectedType) {
+                                    return DropdownMenuItem(
+                                      child: new Text(selectedType,
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                      value: selectedType,
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        )),
                     SizedBox(
                       height: 10,
                     ),
@@ -276,46 +311,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String password = _passEditingController.text;
 
     String phone = _phoneditingController.text;
-    emailcheck = EmailValidator.validate(email);
-    validateMobile(String phone) {
-      String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-      RegExp regExp = new RegExp(pattern);
-      if (phone.length == 0) {
-        phoneErrorMessage = 'Please enter mobile number';
-        return false;
-      } else if (!regExp.hasMatch(phone)) {
-        phoneErrorMessage = 'Please enter valid mobile number';
-        return false;
-      }
-      return true;
-    }
 
-    if (name.length == 0) {
-      Toast.show("Please Enter Your Name", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-      return;
-    } else if (email.length == 0) {
-      Toast.show("Please Enter Your Email", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-      return;
-    } else if (emailcheck == false) {
-      Toast.show("Invalid Email Format", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-      return;
-    } else if (password.length == 0) {
-      Toast.show("Please Enter Your Password", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-      return;
-    } else if (validateMobile(phone) == false) {
-      Toast.show(phoneErrorMessage, context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-      return;
-    } else if (!_isChecked) {
+    if (!_isChecked) {
       Toast.show("Please Accept Term", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
 
@@ -348,16 +345,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  void _loginScreen() {
-    Navigator.pop(
-        context, MaterialPageRoute(builder: (BuildContext context) => Main()));
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isHidePassword = !_isHidePassword;
+    });
   }
 
   void _onChange(bool value) {
     setState(() {
       _isChecked = value;
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        print("Name $name");
+        print("Email $email");
+        print("Phone $phone");
+        print("Password $password");
+      } else {
+        setState(() {
+          _validate = true;
+        });
+      }
+
       //savepref(value);
     });
+  }
+
+  String _validateName(String value) {
+    String pattern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'The name is required';
+    } else if (value.length < 4) {
+      return "At least 4 character";
+    } else if (!regExp.hasMatch(value)) {
+      return "Name must be a-z and A-Z";
+    }
+    return null;
+  }
+
+  String _validateEmail(String value) {
+    emailcheck = EmailValidator.validate(value);
+    if (value.isEmpty) {
+      return 'The email is required';
+    } else if (emailcheck == false) {
+      return "Invalid Email";
+    } else {
+      return null;
+    }
+  }
+
+  String _validatePhone(String value) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'The phone No. is required';
+    } else if (!regExp.hasMatch(value)) {
+      return "Invalid Phone Number";
+    }
+    return null;
+  }
+
+  String _validatePassword(String value) {
+    String pattern = r'(?=.*?[#?!@$%^&*-])';
+
+    if (value.isEmpty) {
+      return 'The password is required';
+    }
+    return null;
+  }
+
+  void _loginScreen() {
+    Navigator.pop(
+        context, MaterialPageRoute(builder: (BuildContext context) => Main()));
   }
 
   void _showEULA() {
