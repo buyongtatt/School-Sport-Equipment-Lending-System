@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sport_equipment/register.dart';
+import 'package:sport_equipment/login.dart';
 
 import 'main.dart';
 
@@ -106,7 +106,7 @@ class _ProgressIndicatorState extends State<ProgressIndicator>
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => RegisterScreen()));
+                    builder: (BuildContext context) => LoginScreen()));
 
             // Navigator.push(
             //     context,

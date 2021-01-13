@@ -332,8 +332,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "usertype": selectedType,
     }).then((res) {
       if (res.body == "success") {
-        Navigator.pop(context,
-            MaterialPageRoute(builder: (BuildContext context) => Main()));
+        Navigator.pop(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => LoginScreen()));
         Toast.show("Registration success", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       } else {
@@ -406,8 +408,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String _validatePassword(String value) {
-    String pattern = r'(?=.*?[#?!@$%^&*-])';
-
     if (value.isEmpty) {
       return 'The password is required';
     }
@@ -415,8 +415,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _loginScreen() {
-    Navigator.pop(
-        context, MaterialPageRoute(builder: (BuildContext context) => Main()));
+    Navigator.pop(context,
+        MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
   }
 
   void _showEULA() {
