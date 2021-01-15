@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 error_reporting(0);
 include_once ("dbconnect.php");
@@ -28,6 +29,7 @@ else
 {
     echo "error";
 }
+
 
 
 ?>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 error_reporting(0);
 include_once ("dbconnect.php");
@@ -26,5 +27,6 @@ function sendEmail($useremail) {
     'X-Mailer: PHP/' . phpversion(); 
     mail($to, $subject, $message, $headers); 
 }
+
 
 ?>
