@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sport_equipment/mainscreen.dart';
 import 'package:sport_equipment/register.dart';
 import 'package:sport_equipment/main.dart';
 import 'package:sport_equipment/user.dart';
@@ -9,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'dart:async';
 import 'package:email_validator/email_validator.dart';
+import 'package:sport_equipment/loaders/color_loader_4.dart';
 
 void main() => runApp(LoginScreen());
 bool rememberMe = false;
@@ -254,6 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (_formKeyForResetEmail.currentState.validate()) {
                     _passwordShow = false;
                     emailForgotController.text = emailController.text;
+
                     _enterResetPass();
                   }
                 }),
@@ -357,7 +360,8 @@ class _LoginScreenState extends State<LoginScreen> {
           }).then((res) {
         print(res.body);
         if (res.body.contains("success")) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(false);
+          Navigator.of(context).pop(false);
           Toast.show("Reset password success", context,
               duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         } else {
@@ -376,10 +380,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _userLogin() async {
     try {
-      ProgressDialog pr = new ProgressDialog(context,
-          type: ProgressDialogType.Normal, isDismissible: false);
-      pr.style(message: "Log in...");
-      pr.show();
+      ColorLoader4();
       String _email = _emailEditingController.text;
       String _password = _passEditingController.text;
 
@@ -400,21 +401,19 @@ class _LoginScreenState extends State<LoginScreen> {
               verify: userdata[5],
               datereg: userdata[6],
               quantity: userdata[7]);
-          pr.dismiss();
+
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => Main(
-                      // user: _user,
+                  builder: (BuildContext context) => MainScreen(
+                        user: _user,
                       )));
         } else {
-          pr.dismiss();
           Toast.show("Login failed", context,
               duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         }
       }).catchError((err) {
         print(err);
-        pr.dismiss();
       });
     } on Exception catch (_) {
       Toast.show("Error", context,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sport_equipment/login.dart';
-import 'package:sport_equipment/main.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 import 'package:email_validator/email_validator.dart';
