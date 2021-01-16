@@ -12,7 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:sport_equipment/constants/constants.dart';
 import 'package:sport_equipment/equipmentdetail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'cartscreen.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'models/equipment.dart';
 
@@ -139,12 +139,12 @@ class _MainScreenState extends State<MainScreen> {
                             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                         return;
                       } else {
-                        // await Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (BuildContext context) => CartScreen(
-                        //               user: widget.user,
-                        //             )));
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => CartScreen(
+                                      user: widget.user,
+                                    )));
                         _loadData();
                         _loadCartQuantity();
                       }
@@ -340,7 +340,9 @@ class _MainScreenState extends State<MainScreen> {
                                                 const EdgeInsets.only(left: 15),
                                             child: Text(
                                               equipmentdata[index]['name'],
-                                              style: TextStyle(fontSize: 16),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w800),
                                             ),
                                           ),
                                           SizedBox(
@@ -618,11 +620,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   gotoCart() async {
-    if (widget.user.email == "unregistered") {
-      Toast.show("Please register to use this function", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    } else if (widget.user.email == "admin@grocery.com") {
+    if (widget.user.email == "admin@sportequipment.com") {
       Toast.show("Admin mode!!!", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
@@ -631,12 +629,12 @@ class _MainScreenState extends State<MainScreen> {
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
     } else {
-      // await Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (BuildContext context) => CartScreen(
-      //               user: widget.user,
-      //             )));
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => CartScreen(
+                    user: widget.user,
+                  )));
       _loadData();
       _loadCartQuantity();
     }

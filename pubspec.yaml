@@ -58,6 +58,7 @@ dev_dependencies:
   line_icons: ^0.2.0
   curved_navigation_bar: ^0.3.7
   carousel_pro: ^1.0.0
+  scoped_model: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

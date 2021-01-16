@@ -99,7 +99,8 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                 children: <Widget>[
                   Text(
                     "Name :",
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                        fontSize: 16, height: 1.5, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     width: 20,
@@ -123,7 +124,8 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                 children: <Widget>[
                   Text(
                     "Description :",
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                        fontSize: 16, height: 1.5, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     width: 20,
@@ -147,7 +149,8 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                 children: <Widget>[
                   Text(
                     "Fee :",
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                        fontSize: 16, height: 1.5, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     width: 20,
@@ -157,7 +160,11 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                     children: <Widget>[
                       Text(
                         'RM' + widget.equipment.fee + "/hour",
-                        style: TextStyle(fontSize: 16, height: 1.5),
+                        style: TextStyle(
+                            fontSize: 16,
+                            height: 1.5,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   )),
@@ -174,7 +181,8 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                 children: <Widget>[
                   Text(
                     "Type :",
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                        fontSize: 16, height: 1.5, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     width: 20,
@@ -198,7 +206,8 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
                 children: <Widget>[
                   Text(
                     "Quantity :",
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                    style: TextStyle(
+                        fontSize: 16, height: 1.5, fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     width: 20,
@@ -394,7 +403,7 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
           "email": widget.user.email,
           "id": widget.equipment.id,
           "quantity": quantity.toString(),
-          "hour": hour.toString,
+          "hour": hour.toString(),
         }).then((res) {
           print(res.body);
           if (res.body == "failed") {
