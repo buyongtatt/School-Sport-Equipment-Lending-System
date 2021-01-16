@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sport_equipment/mainscreen.dart';
 import 'package:sport_equipment/register.dart';
-import 'package:sport_equipment/main.dart';
+
 import 'package:sport_equipment/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
@@ -251,7 +251,12 @@ class _LoginScreenState extends State<LoginScreen> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-                child: new Text("Yes"),
+                child: new Text(
+                  "Yes",
+                  style: TextStyle(
+                    color: Colors.red[400],
+                  ),
+                ),
                 onPressed: () {
                   if (_formKeyForResetEmail.currentState.validate()) {
                     _passwordShow = false;
@@ -261,7 +266,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 }),
             new FlatButton(
-              child: new Text("No"),
+              child: new Text(
+                "No",
+                style: TextStyle(
+                  color: Colors.red[400],
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

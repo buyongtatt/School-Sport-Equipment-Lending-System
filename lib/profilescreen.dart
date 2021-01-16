@@ -12,6 +12,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
 import 'widgets/profile_menu.dart';
+import 'login.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;
@@ -26,6 +27,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   double screenHeight, screenWidth;
   final f = new DateFormat('dd-MM-yyyy hh:mm a');
   var parsedDate;
+  bool _isHidePassword = true;
+  bool _validate = false;
+  bool validateMobile = false;
+  String name, phone, oldpassword, newpassword;
 
   @override
   void initState() {
@@ -62,7 +67,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           GestureDetector(
-                            onTap: _takePicture,
                             child: Container(
                                 height: screenHeight / 4.8,
                                 width: screenWidth / 3.2,
@@ -194,7 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              SingleChildScrollView(
+              Expanded(
+                  child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   children: [
@@ -202,26 +207,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ProfileMenu(
                       text: "Change Name",
                       icon: "assets/icons/User Icon.svg",
-                      press: () => {},
+                      press: changeName,
                     ),
                     ProfileMenu(
                       text: "Change Phone Number",
                       icon: "assets/icons/Bell.svg",
-                      press: () {},
+                      press: changePhone,
                     ),
                     ProfileMenu(
                       text: "Change Password",
                       icon: "assets/icons/Settings.svg",
-                      press: () {},
+                      press: changePassword,
                     ),
                     ProfileMenu(
                       text: "Log Out",
                       icon: "assets/icons/Question mark.svg",
-                      press: () {},
+                      press: _gotologinPage,
                     ),
                   ],
                 ),
-              )
+              ))
             ])));
   }
 
@@ -262,11 +267,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void changeName() {
-    if (widget.user.email == "unregistered") {
-      Toast.show("Please register to use this function", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
     TextEditingController nameController = TextEditingController();
     showDialog(
         context: context,
@@ -281,11 +281,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colors.black,
                 ),
               ),
-              content: new TextField(
+              content: new TextFormField(
                   style: TextStyle(
                     color: Colors.black,
                   ),
                   controller: nameController,
+                  validator: _validateName,
+                  onSaved: (String val) {
+                    name = val;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Name',
                     icon: Icon(
@@ -317,11 +321,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _changeName(String name) {
-    if (widget.user.email == "unregistered") {
-      Toast.show("Please register to use this function", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
     if (name == "" || name == null) {
       Toast.show("Please enter your new name", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -329,10 +328,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     ReCase rc = new ReCase(name);
     print(rc.titleCase.toString());
-    http.post("https://lintatt.com/furniture/php/update_profile.php", body: {
-      "email": widget.user.email,
-      "name": rc.titleCase.toString(),
-    }).then((res) {
+    http.post("https://lintatt.com/sportequipment/php/update_profile.php",
+        body: {
+          "email": widget.user.email,
+          "name": rc.titleCase.toString(),
+        }).then((res) {
       if (res.body == "success") {
         print('in success');
 
@@ -350,11 +350,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void changePassword() {
-    if (widget.user.email == "unregistered") {
-      Toast.show("Please register to use this function", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
     TextEditingController passController = TextEditingController();
     TextEditingController pass2Controller = TextEditingController();
     showDialog(
@@ -373,11 +368,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               content: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  TextField(
+                  TextFormField(
                       style: TextStyle(
                         color: Colors.black,
                       ),
                       controller: passController,
+                      validator: _validatePassword,
+                      onSaved: (String val) {
+                        oldpassword = val;
+                      },
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Old Password',
@@ -386,12 +385,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.red[400],
                         ),
                       )),
-                  TextField(
+                  TextFormField(
                       style: TextStyle(
                         color: Colors.black,
                       ),
-                      obscureText: true,
                       controller: pass2Controller,
+                      validator: _validatePassword2,
+                      onSaved: (String val) {
+                        oldpassword = val;
+                      },
+                      obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'New Password',
                         icon: Icon(
@@ -450,11 +453,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void changePhone() {
-    if (widget.user.email == "unregistered") {
-      Toast.show("Please register to use this function", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
     TextEditingController phoneController = TextEditingController();
     showDialog(
         context: context,
@@ -464,16 +462,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               title: new Text(
-                "Change your name?",
+                "Change your phone?",
                 style: TextStyle(
                   color: Colors.black,
                 ),
               ),
-              content: new TextField(
+              content: new TextFormField(
                   style: TextStyle(
                     color: Colors.black,
                   ),
                   controller: phoneController,
+                  validator: _validatePhone,
+                  onSaved: (String val) {
+                    phone = val;
+                  },
                   decoration: InputDecoration(
                     labelText: 'New Phone Number',
                     icon: Icon(
@@ -510,10 +512,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
     }
-    http.post("https://lintatt.com/furniture/php/update_profile.php", body: {
-      "email": widget.user.email,
-      "phone": phone,
-    }).then((res) {
+    http.post("https://lintatt.com/sportequipment/php/update_profile.php",
+        body: {
+          "email": widget.user.email,
+          "phone": phone,
+        }).then((res) {
       if (res.body == "success") {
         print('in success');
 
@@ -542,7 +545,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: new Text(
-            "Go to login page?",
+            "Log Out?",
             style: TextStyle(
               color: Colors.black,
             ),
@@ -562,13 +565,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colors.red[400],
                 ),
               ),
-              // onPressed: () {
-              //   Navigator.of(context).pop();
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (BuildContext context) => LoginScreen()));
-              // },
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => LoginScreen()));
+              },
             ),
             new FlatButton(
               child: new Text(
@@ -641,5 +644,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isHidePassword = !_isHidePassword;
+    });
+  }
+
+  String _validateName(String value) {
+    String pattern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'The name is required';
+    } else if (value.length < 4) {
+      return "At least 4 character";
+    } else if (!regExp.hasMatch(value)) {
+      return "Name must be a-z and A-Z";
+    }
+    return null;
+  }
+
+  String _validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'The password is required';
+    }
+    return null;
+  }
+
+  String _validatePassword2(String value) {
+    if (value.isEmpty) {
+      return 'The password is required';
+    }
+    return null;
+  }
+
+  String _validatePhone(String value) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'The phone No. is required';
+    } else if (!regExp.hasMatch(value)) {
+      return "Invalid Phone Number";
+    }
+    return null;
   }
 }
