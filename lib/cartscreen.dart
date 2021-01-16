@@ -10,6 +10,9 @@ import 'loaders/color_loader_2.dart';
 import 'loaders/color_loader_5.dart';
 import 'package:sport_equipment/theme/colors.dart';
 import 'package:toast/toast.dart';
+import 'package:random_string/random_string.dart';
+import 'package:intl/intl.dart';
+import 'payment.dart';
 
 class CartScreen extends StatefulWidget {
   final User user;
@@ -66,6 +69,7 @@ class _CartScreenState extends State<CartScreen> {
     } else {
       return Scaffold(
         bottomSheet: Container(
+            height: 80,
             color: primary,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -84,12 +88,12 @@ class _CartScreenState extends State<CartScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                   minWidth: 100,
-                  height: 80,
+                  height: 40,
                   child: Text("Make Payment"),
                   color: Colors.white,
                   textColor: Colors.black,
                   elevation: 10,
-                  // onPressed: makePaymentDialog,
+                  onPressed: makePaymentDialog,
                 ),
               ],
             )),
@@ -419,5 +423,70 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
     );
+  }
+
+  void makePaymentDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: new Text(
+          'Proceed with payment?',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        content: new Text(
+          'Are you sure?',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        actions: <Widget>[
+          MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                makePayment();
+              },
+              child: Text(
+                "Ok",
+                style: TextStyle(
+                  color: Colors.red[400],
+                ),
+              )),
+          MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  color: Colors.red[400],
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  Future<void> makePayment() async {
+    var now = new DateTime.now();
+    var formatter = new DateFormat('ddMMyyyy-');
+    String lendingid = widget.user.email.substring(1, 4) +
+        "-" +
+        formatter.format(now) +
+        randomAlphaNumeric(6);
+    print(lendingid);
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => PaymentScreen(
+                  user: widget.user,
+                  val: amountpayable.toStringAsFixed(2),
+                  lendingid: lendingid,
+                )));
+    _loadCart();
   }
 }

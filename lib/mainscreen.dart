@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:sport_equipment/login.dart';
 import 'package:sport_equipment/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
@@ -15,9 +16,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'cartscreen.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'models/equipment.dart';
-
+import 'components/icon.dart';
 import 'loaders/color_loader_2.dart';
 import 'loaders/color_loader_5.dart';
+import 'profilescreen.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -433,8 +435,8 @@ class _MainScreenState extends State<MainScreen> {
             currentAccountPicture: CircleAvatar(
               backgroundColor:
                   Theme.of(context).platform == TargetPlatform.android
-                      ? Colors.white
-                      : Colors.white,
+                      ? Colors.grey[300]
+                      : Colors.grey[300],
               child: Text(
                 widget.user.name.toString().substring(0, 1).toUpperCase(),
                 style: TextStyle(fontSize: 40.0),
@@ -494,12 +496,25 @@ class _MainScreenState extends State<MainScreen> {
               title: Text("User Profile"),
               onTap: () => {
                     Navigator.pop(context),
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (BuildContext context) => ProfileScreen(
-                    //               user: widget.user,
-                    //             )))
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => ProfileScreen(
+                                  user: widget.user,
+                                )))
+                  }),
+          ListTile(
+              leading: Icon(
+                logout,
+                color: Colors.red[400],
+              ),
+              title: Text("Log Out"),
+              onTap: () => {
+                    Navigator.pop(context),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => LoginScreen()))
                   }),
           Visibility(
             visible: _isadmin,
