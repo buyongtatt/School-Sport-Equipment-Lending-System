@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: Colors.white,
         ),
         body: Container(
-            color: Colors.white,
+            color: Colors.lightBlue[50],
             child: Column(children: <Widget>[
               SizedBox(height: 5),
               Card(
@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: <Widget>[
                           GestureDetector(
                             child: Container(
-                                height: screenHeight / 4.8,
+                                height: screenHeight / 5,
                                 width: screenWidth / 3.2,
                                 decoration: new BoxDecoration(
                                   shape: BoxShape.circle,
@@ -106,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                           alignment: Alignment.centerLeft,
-                                          height: 20,
+                                          height: 32,
                                           child: Text("Name",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -115,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                         alignment: Alignment.centerLeft,
-                                        height: 20,
+                                        height: 32,
                                         child: Text(widget.user.name,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                           alignment: Alignment.centerLeft,
-                                          height: 20,
+                                          height: 32,
                                           child: Text("Email",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                         alignment: Alignment.centerLeft,
-                                        height: 20,
+                                        height: 32,
                                         child: Text(widget.user.email,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                           alignment: Alignment.centerLeft,
-                                          height: 20,
+                                          height: 32,
                                           child: Text("Phone",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                         alignment: Alignment.centerLeft,
-                                        height: 20,
+                                        height: 32,
                                         child: Text(widget.user.phone,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                           alignment: Alignment.centerLeft,
-                                          height: 20,
+                                          height: 32,
                                           child: Text("Register",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -181,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TableCell(
                                       child: Container(
                                         alignment: Alignment.centerLeft,
-                                        height: 20,
+                                        height: 32,
                                         child: Text(f.format(parsedDate),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,

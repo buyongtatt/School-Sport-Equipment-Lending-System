@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: 'Material App',
           home: Scaffold(
             resizeToAvoidBottomPadding: false,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.lightBlue[50],
             body: Container(
                 child: Column(
               children: <Widget>[
@@ -457,12 +457,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                   },
-                  child: Text("Exit")),
+                  child: Text(
+                    "Exit",
+                    style: TextStyle(
+                      color: Colors.red[400],
+                    ),
+                  )),
               MaterialButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: Text("Cancel")),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.red[400],
+                    ),
+                  )),
             ],
           ),
         ) ??

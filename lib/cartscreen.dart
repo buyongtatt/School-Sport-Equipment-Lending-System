@@ -43,7 +43,7 @@ class _CartScreenState extends State<CartScreen> {
 
     if (cartData == null) {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.lightBlue[50],
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: Text('My Cart'),
@@ -97,7 +97,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ],
             )),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue[50],
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text('My Cart'),
@@ -190,7 +190,9 @@ class _CartScreenState extends State<CartScreen> {
                           new Container(
                             alignment: Alignment.topLeft,
                             child: new Text(
-                              "RM" + cartData[index]['yourfee'],
+                              "RM" +
+                                  cartData[index]['yourfee'] +
+                                  "\n(80% Off If Student)",
                               style: TextStyle(
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.bold,
@@ -263,7 +265,7 @@ class _CartScreenState extends State<CartScreen> {
         }
 
         if (widget.user.usertype == 'Student') {
-          amountpayable = 0.00;
+          amountpayable = _totalfee * 0.2;
         } else if (widget.user.usertype == 'Public') {
           amountpayable = _totalfee;
         }

@@ -37,6 +37,7 @@ class _EquipmentDetailState extends State<EquipmentDetail> {
     return Scaffold(
       body: getBody(),
       bottomSheet: getBottom(),
+      backgroundColor: Colors.lightBlue[50],
     );
   }
 

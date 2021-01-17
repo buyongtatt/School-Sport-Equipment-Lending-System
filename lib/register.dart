@@ -42,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       title: 'Material App',
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue[50],
         body: Container(
             child: Column(
           children: <Widget>[
@@ -287,13 +287,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-                child: new Text("Yes, Continue"),
+                child: new Text(
+                  "Yes, Continue",
+                  style: TextStyle(
+                    color: Colors.red[400],
+                    //fontWeight: FontWeight.w500,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   _register();
                 }),
             new FlatButton(
-              child: new Text("No, Cancel"),
+              child: new Text("No, Cancel",
+                  style: TextStyle(
+                    color: Colors.red[400],
+                    //fontWeight: FontWeight.w500,
+                  )),
               onPressed: () {
                 Navigator.of(context).pop();
                 return;

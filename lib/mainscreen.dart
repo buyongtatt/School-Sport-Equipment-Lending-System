@@ -20,6 +20,7 @@ import 'components/icon.dart';
 import 'loaders/color_loader_2.dart';
 import 'loaders/color_loader_5.dart';
 import 'profilescreen.dart';
+import 'paymenthistoryscreen.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -79,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
 
     if (equipmentdata == null) {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.lightBlue[50],
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: Text('Equipment List'),
@@ -107,6 +108,7 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: Scaffold(
+            backgroundColor: Colors.lightBlue[50],
             resizeToAvoidBottomPadding: false,
             drawer: mainDrawer(context),
             appBar: AppBar(
@@ -160,7 +162,7 @@ class _MainScreenState extends State<MainScreen> {
                 await refreshList();
               },
               child: Container(
-                color: Colors.white,
+                color: Colors.lightBlue[50],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -249,7 +251,7 @@ class _MainScreenState extends State<MainScreen> {
                     Visibility(
                         visible: _visible,
                         child: Card(
-                          color: Colors.white,
+                          color: Colors.lightBlue[50],
                           elevation: 5,
                           child: Container(
                             height: screenHeight / 12,
@@ -467,7 +469,7 @@ class _MainScreenState extends State<MainScreen> {
                 Icons.shopping_basket,
                 color: Colors.red[400],
               ),
-              title: Text("Shopping Cart"),
+              title: Text("Lending Cart"),
               onTap: () => {
                     Navigator.pop(context),
                     gotoCart(),
@@ -477,16 +479,16 @@ class _MainScreenState extends State<MainScreen> {
                 Icons.payment,
                 color: Colors.red[400],
               ),
-              title: Text("Payment History"),
+              title: Text("Lending History"),
               onTap: () => {
                     Navigator.pop(context),
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (BuildContext context) =>
-                    //             PaymentHistoryScreen(
-                    //               user: widget.user,
-                    //             ))),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                PaymentHistoryScreen(
+                                  user: widget.user,
+                                ))),
                   }),
           ListTile(
               leading: Icon(

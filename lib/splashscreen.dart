@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
           fit: StackFit.expand,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(color: Colors.lightBlue[50]),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
