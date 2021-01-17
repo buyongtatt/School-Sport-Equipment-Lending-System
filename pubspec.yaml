@@ -51,7 +51,7 @@ dev_dependencies:
   email_validator: '^1.0.0'
   flutter_speed_dial: ^1.2.5
   flutter_barcode_scanner: ^1.0.0
-  image_cropper: ^1.2.2
+  image_cropper: 
   webview_flutter: ^0.3.14+1
   random_string: ^1.1.0
   flutter_svg: ^0.19.2+1

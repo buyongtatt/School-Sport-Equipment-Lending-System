@@ -21,6 +21,7 @@ import 'loaders/color_loader_2.dart';
 import 'loaders/color_loader_5.dart';
 import 'profilescreen.dart';
 import 'paymenthistoryscreen.dart';
+import 'adminequipment.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -480,16 +481,7 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.red[400],
               ),
               title: Text("Lending History"),
-              onTap: () => {
-                    Navigator.pop(context),
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                PaymentHistoryScreen(
-                                  user: widget.user,
-                                ))),
-                  }),
+              onTap: () => {Navigator.pop(context), gotoLending()}),
           ListTile(
               leading: Icon(
                 Icons.person,
@@ -534,7 +526,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                     title: Text(
-                      "My Products",
+                      "Sport Equipment",
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -545,13 +537,13 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     onTap: () => {
                           Navigator.pop(context),
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (BuildContext context) =>
-                          //             AdminProduct(
-                          //               user: widget.user,
-                          //             )))
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AdminEquipmentScreen(
+                                        user: widget.user,
+                                      )))
                         }),
               ],
             ),
@@ -633,6 +625,21 @@ class _MainScreenState extends State<MainScreen> {
     } catch (e) {
       Toast.show("Error", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    }
+  }
+
+  gotoLending() async {
+    if (widget.user.email == "admin@sportequipment.com") {
+      Toast.show("Admin mode!!!", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      return;
+    } else {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => PaymentHistoryScreen(
+                    user: widget.user,
+                  )));
     }
   }
 
