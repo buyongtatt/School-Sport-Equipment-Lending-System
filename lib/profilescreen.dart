@@ -237,11 +237,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       press: changePhone,
                     ),
                     ProfileMenu(
-                      text: "Change Password",
-                      icon: "assets/icons/Settings.svg",
-                      press: changePassword,
-                    ),
-                    ProfileMenu(
                       text: "Log Out",
                       icon: "assets/icons/Question mark.svg",
                       press: _gotologinPage,

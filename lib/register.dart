@@ -322,7 +322,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     String phone = _phoneditingController.text;
 
-    if (!_isChecked) {
+    if (name.length == 0) {
+      Toast.show("Please Enter Your Name", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+      return;
+    } else if (email.length == 0) {
+      Toast.show("Please Enter Your Email", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+      return;
+    } else if (emailcheck == false) {
+      Toast.show("Invalid Email Format", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+      return;
+    } else if (password.length == 0) {
+      Toast.show("Please Enter Your Password", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+      return;
+    } else if (_validatePhone(phone) == false) {
+      Toast.show(phoneErrorMessage, context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+      return;
+    } else if (!_isChecked) {
       Toast.show("Please Accept Term", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
 
@@ -333,7 +358,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       return;
     }
-
     http.post(urlRegister, body: {
       "name": name,
       "email": email,
